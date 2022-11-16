@@ -1,0 +1,11 @@
+C:\Users\Nome\source\repos\Client-FTP\Client-FTP\bin\Debug\Client-FTP.exe.config
+C:\Users\Nome\source\repos\Client-FTP\Client-FTP\bin\Debug\Client-FTP.exe
+C:\Users\Nome\source\repos\Client-FTP\Client-FTP\bin\Debug\Client-FTP.pdb
+C:\Users\Nome\source\repos\Client-FTP\Client-FTP\obj\Debug\Client-FTP.csproj.AssemblyReference.cache
+C:\Users\Nome\source\repos\Client-FTP\Client-FTP\obj\Debug\Client-FTP.csproj.SuggestedBindingRedirects.cache
+C:\Users\Nome\source\repos\Client-FTP\Client-FTP\obj\Debug\Client_FTP.Form1.resources
+C:\Users\Nome\source\repos\Client-FTP\Client-FTP\obj\Debug\Client_FTP.Properties.Resources.resources
+C:\Users\Nome\source\repos\Client-FTP\Client-FTP\obj\Debug\Client-FTP.csproj.GenerateResource.cache
+C:\Users\Nome\source\repos\Client-FTP\Client-FTP\obj\Debug\Client-FTP.csproj.CoreCompileInputs.cache
+C:\Users\Nome\source\repos\Client-FTP\Client-FTP\obj\Debug\Client-FTP.exe
+C:\Users\Nome\source\repos\Client-FTP\Client-FTP\obj\Debug\Client-FTP.pdb
