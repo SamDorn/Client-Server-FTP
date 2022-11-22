@@ -1,17 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
+using System.IO;
+using System.Net;
+using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Client_FTP
 {
     public partial class Form1 : Form
     {
+        private Socket socketClient;
+
         public Form1()
         {
             InitializeComponent();
@@ -26,14 +25,14 @@ namespace Client_FTP
 
         private void but_percorso_Click(object sender, EventArgs e)
         {
-            if(openFileDialog1.ShowDialog() == DialogResult.OK)
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                textBox3.Text = openFileDialog1.FileName;
+                txt_box_path.Text = openFileDialog1.FileName;
             }
-            
+
         }
 
-        
+
 
 
         private void btn_help_upload_Click(object sender, EventArgs e)
@@ -48,10 +47,111 @@ namespace Client_FTP
 
         private void btn_download_Click(object sender, EventArgs e)
         {
-            if(folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
 
             }
         }
+
+        private void btn_help_progress_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Questa barra visulizza il caricamento di upload/download di un file.", "Aiuto barra progressi");
+        }
+
+        private void btm_start_Click(object sender, EventArgs e)
+        {
+
+
+            btn_upload.Enabled = true;
+            txt_box_path.Enabled = true;
+            btn_percorso.Enabled = true;
+        }
+
+
+        private void btn_upload_Click(object sender, EventArgs e)
+        {
+            string filePath = "";
+            string fileName = txt_box_path.Text;
+            fileName = fileName.Replace("\\", "/");
+            while (fileName.IndexOf("/") > -1)
+            {
+                filePath += fileName.Substring(0, fileName.IndexOf("/") + 1);
+                fileName = fileName.Substring(fileName.IndexOf("/") + 1);
+            }
+            //sendfile(txt_box_path.Text);
+            IPAddress ipAddress = IPAddress.Parse("127.0.0.1");
+            IPEndPoint ipEnd = new IPEndPoint(ipAddress, 5000);
+            Socket clientSocket = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            byte[] fileNameByte = Encoding.UTF8.GetBytes(fileName);
+
+
+            string fullPath = filePath + fileName;
+
+            byte[] fileData = File.ReadAllBytes(fullPath);
+            byte[] clientData = new byte[4 + fileNameByte.Length + fileData.Length];
+            byte[] fileNameLen = BitConverter.GetBytes(fileNameByte.Length);
+
+            fileNameLen.CopyTo(clientData, 0);
+            fileNameByte.CopyTo(clientData, 4);
+            fileData.CopyTo(clientData, 4 + fileNameByte.Length);
+            clientSocket.Connect(ipEnd);
+            clientSocket.Send(clientData, 0, clientData.Length, 0);
+
+        }
+        
+        
+
+    private void sendfile(string fn)
+
+    {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /*FileStream file = new FileStream(txt_box_path.Text, FileMode.Open); 
+        long totalBytes = file.Length;
+        try
+        {
+            clientSocket.Connect(ipEnd);
+            byte[] filechunk = new byte[4096];
+            int numBytes;
+            while ((numBytes = file.Read(filechunk, 0, 4096)) > 0)
+            {
+                if (clientSocket.Send(filechunk, numBytes, SocketFlags.None) != numBytes)
+                {
+                    throw new Exception("Error in sending the file");
+                }
+                /*bytesSoFar += numBytes;
+                Byte progress = (byte)(bytesSoFar * 100 / totalBytes);
+                if (progress > lastStatus && progress != 100)
+                {
+                    MessageBox.Show(Convert.ToString(lastStatus));
+                    lastStatus = progress;
+                }
+            }
+            file.Close();
+        }
+        catch(Exception e){
+            MessageBox.Show(e.ToString());
+        }
+
+            //[0]filenamelen[4]filenamebyte[*]filedata     
+        */
+
     }
+}
 }
