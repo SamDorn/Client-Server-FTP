@@ -181,6 +181,7 @@
             this.btn_list.TabIndex = 14;
             this.btn_list.Text = "View available file";
             this.btn_list.UseVisualStyleBackColor = true;
+            this.btn_list.Click += new System.EventHandler(this.btn_list_Click);
             // 
             // btn_help_visualizza
             // 

@@ -61,7 +61,7 @@ namespace Client_FTP
         private void btm_start_Click(object sender, EventArgs e)
         {
 
-
+            btn_list.Visible = true;
             btn_upload.Enabled = true;
             txt_box_path.Enabled = true;
             btn_percorso.Enabled = true;
@@ -70,6 +70,9 @@ namespace Client_FTP
 
         private void btn_upload_Click(object sender, EventArgs e)
         {
+            prg_bar.Enabled = true;
+            prg_bar.Visible = true;
+            prg_bar.Increment(1);
             string filePath = "";
             string fileName = txt_box_path.Text;
             fileName = fileName.Replace("\\", "/");
@@ -96,7 +99,7 @@ namespace Client_FTP
             fileData.CopyTo(clientData, 4 + fileNameByte.Length);
             clientSocket.Connect(ipEnd);
             clientSocket.Send(clientData, 0, clientData.Length, 0);
-
+            prg_bar.Increment(1);
         }
         
         
@@ -153,5 +156,10 @@ namespace Client_FTP
         */
 
     }
-}
+
+        private void btn_list_Click(object sender, EventArgs e)
+        {
+
+        }
+    }
 }
