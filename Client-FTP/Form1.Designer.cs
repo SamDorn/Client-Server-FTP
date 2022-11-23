@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.txt_ip = new System.Windows.Forms.TextBox();
             this.txt_port = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -41,6 +42,7 @@
             this.btn_upload = new System.Windows.Forms.Button();
             this.btn_help_upload = new System.Windows.Forms.Button();
             this.list_box_files = new System.Windows.Forms.ListBox();
+            this.form1BindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.btn_list = new System.Windows.Forms.Button();
             this.btn_help_visualizza = new System.Windows.Forms.Button();
             this.btn_download = new System.Windows.Forms.Button();
@@ -54,6 +56,7 @@
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.label8 = new System.Windows.Forms.Label();
             this.btn_help_progress = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // txt_ip
@@ -167,10 +170,19 @@
             // list_box_files
             // 
             this.list_box_files.FormattingEnabled = true;
+            this.list_box_files.Items.AddRange(new object[] {
+            "qweadadaw",
+            "awdawdwd",
+            "awdawdaw"});
             this.list_box_files.Location = new System.Drawing.Point(12, 212);
             this.list_box_files.Name = "list_box_files";
             this.list_box_files.Size = new System.Drawing.Size(347, 160);
             this.list_box_files.TabIndex = 13;
+            this.list_box_files.SelectedIndexChanged += new System.EventHandler(this.list_box_files_SelectedIndexChanged);
+            // 
+            // form1BindingSource
+            // 
+            this.form1BindingSource.DataSource = typeof(Client_FTP.Form1);
             // 
             // btn_list
             // 
@@ -242,6 +254,7 @@
             this.btn_stop.TabIndex = 20;
             this.btn_stop.Text = "Stop";
             this.btn_stop.UseVisualStyleBackColor = true;
+            this.btn_stop.Click += new System.EventHandler(this.btn_stop_Click);
             // 
             // button10
             // 
@@ -317,6 +330,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "Form1";
             this.Text = "Client";
+            ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -350,6 +364,7 @@
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button btn_help_progress;
+        private System.Windows.Forms.BindingSource form1BindingSource;
     }
 }
 
