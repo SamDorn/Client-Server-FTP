@@ -42,7 +42,6 @@
             this.btn_upload = new System.Windows.Forms.Button();
             this.btn_help_upload = new System.Windows.Forms.Button();
             this.list_box_files = new System.Windows.Forms.ListBox();
-            this.form1BindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.btn_list = new System.Windows.Forms.Button();
             this.btn_help_visualizza = new System.Windows.Forms.Button();
             this.btn_download = new System.Windows.Forms.Button();
@@ -56,6 +55,7 @@
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.label8 = new System.Windows.Forms.Label();
             this.btn_help_progress = new System.Windows.Forms.Button();
+            this.form1BindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -170,19 +170,11 @@
             // list_box_files
             // 
             this.list_box_files.FormattingEnabled = true;
-            this.list_box_files.Items.AddRange(new object[] {
-            "qweadadaw",
-            "awdawdwd",
-            "awdawdaw"});
             this.list_box_files.Location = new System.Drawing.Point(12, 212);
             this.list_box_files.Name = "list_box_files";
             this.list_box_files.Size = new System.Drawing.Size(347, 160);
             this.list_box_files.TabIndex = 13;
             this.list_box_files.SelectedIndexChanged += new System.EventHandler(this.list_box_files_SelectedIndexChanged);
-            // 
-            // form1BindingSource
-            // 
-            this.form1BindingSource.DataSource = typeof(Client_FTP.Form1);
             // 
             // btn_list
             // 
@@ -298,6 +290,10 @@
             this.btn_help_progress.UseVisualStyleBackColor = true;
             this.btn_help_progress.Click += new System.EventHandler(this.btn_help_progress_Click);
             // 
+            // form1BindingSource
+            // 
+            this.form1BindingSource.DataSource = typeof(Client_FTP.Form1);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -330,6 +326,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "Form1";
             this.Text = "Client";
+            this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

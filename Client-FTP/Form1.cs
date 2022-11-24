@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing.Text;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
@@ -11,7 +12,9 @@ namespace Client_FTP
     public partial class Form1 : Form
     {
         private Socket socketClient;
-        private byte[] msg;
+        private byte[] msg = new byte[1024];
+        private byte[] vis = new byte[1024];
+        private string path = @"files";
 
         public Form1()
         {
@@ -63,10 +66,7 @@ namespace Client_FTP
 
         private void btn_download_Click(object sender, EventArgs e)
         {
-            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
-            {
-
-            }
+            Download(socketClient);
         }
 
 
@@ -82,7 +82,6 @@ namespace Client_FTP
         private void btn_upload_Click(object sender, EventArgs e)
         {
             Upload(socketClient);
-
         }
         
         private void Disconnect(Socket s)
@@ -95,9 +94,7 @@ namespace Client_FTP
             IPAddress ipAddress = IPAddress.Parse("127.0.0.1");
             IPEndPoint ipEnd = new IPEndPoint(ipAddress, 5000);
             socketClient = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-
             socketClient.Connect(ipEnd);
-
             btn_list.Enabled = true;
             btn_upload.Enabled = true;
             txt_box_path.Enabled = true;
@@ -129,14 +126,47 @@ namespace Client_FTP
 
         private void Visualizza(Socket s)
         {
-            byte[] msg = Encoding.ASCII.GetBytes("v");
+            btn_download.Enabled = true;
+            list_box_files.Items.Clear();
+            msg = Encoding.ASCII.GetBytes("v");
             s.Send(msg);
 
-            int bytesRec = s.Receive(msg);
+            int bytesRec = s.Receive(vis);
             string data = null;
-            data += Encoding.ASCII.GetString(msg, 0, bytesRec);
+            data = Encoding.ASCII.GetString(vis, 0, bytesRec);
+            string[] file;
+            file = data.Split('/');
+            foreach(string fileStr in file)
+            {
+                list_box_files.Items.Add(fileStr);
+            }
+        }
+        private void Download(Socket s)
+        {
 
-            list_box_files.Items.Add(data);
+            msg = Encoding.ASCII.GetBytes("d");
+            s.Send(msg);
+            msg = Encoding.ASCII.GetBytes(list_box_files.SelectedItem.ToString());
+            s.Send(msg);
+            byte[] clientData = new byte[4096];
+            int receivedBytesLen = s.Receive(clientData, clientData.Length, 0);
+            int fileNameLen = BitConverter.ToInt32(clientData, 0);
+            string fileName = Encoding.ASCII.GetString(clientData, 4, fileNameLen);
+            BinaryWriter bWrite = new BinaryWriter(File.Open(path + fileName, FileMode.OpenOrCreate));
+            bWrite.Write(clientData, 4 + fileNameLen, receivedBytesLen - 4 - fileNameLen);
+            while (receivedBytesLen > 0)
+            {
+                receivedBytesLen = s.Receive(clientData, clientData.Length, 0);
+                if (receivedBytesLen == 0)
+                {
+                    bWrite.Close();
+                }
+                else
+                {
+                    bWrite.Write(clientData, 0, receivedBytesLen);
+                }
+            }
+            bWrite.Close();
         }
 
         private void btn_list_Click(object sender, EventArgs e)
@@ -153,6 +183,12 @@ namespace Client_FTP
         private void btn_stop_Click(object sender, EventArgs e)
         {
             Disconnect(socketClient);
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
         }
     }
 }

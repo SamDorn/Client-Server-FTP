@@ -1,39 +1,46 @@
 ﻿using System.Net;
 using System.Net.Sockets;
-using System.Reflection;
-using System.Security.Principal;
 using System.Text;
-using System.Threading;
 
 namespace Server_FTP
 {
     class Program
+
     {
+
         public static void StartListening(Socket clientSocket, int n)
 
         {
             byte[] msg = new byte[1024];
-            int messaggio = clientSocket.Receive(msg);
-            String data = Encoding.ASCII.GetString(msg, 0, messaggio);
-
+            int messaggio = 0;
+            string data = "";
+        controllo:
+            while (true)
+            {
+                messaggio = clientSocket.Receive(msg);
+                data = Encoding.ASCII.GetString(msg, 0, messaggio);
+                if (data != "")
+                    break;
+            }
             switch (data)
             {
                 case "u":
                     Download(clientSocket, n);
+                    data = "";
+                    goto controllo;
                     break;
                 case "v":
                     VisualizzaFile(clientSocket);
+                    data = "";
+                    goto controllo;
+                    break;
+                case "d":
+                    Upload(clientSocket);
                     break;
             }
-           
-
-
-
+            data = "";
         }
-        public static void controllo()
-        {
 
-        }
         public static void visualizzaFile()
         {
             string path = @"files";
@@ -46,6 +53,23 @@ namespace Server_FTP
             }
 
         }
+        private static void Upload(Socket s)
+        {
+            byte[] msg = new byte[1024];
+            int messaggio = 0;
+            string data = "";
+            messaggio = s.Receive(msg);
+            data = Encoding.ASCII.GetString(msg, 0, messaggio);
+            byte[] fileNameByte = Encoding.ASCII.GetBytes(data);
+            byte[] fileData = File.ReadAllBytes($"C:/Users/Nome/Documents/GitHub/Client-Server-FTP/Server-FTP/bin/Debug/net6.0/files{data}");
+            byte[] clientData = new byte[fileNameByte.Length + 4 + fileData.Length];
+            byte[] fileNameLen = BitConverter.GetBytes(fileNameByte.Length);
+
+            fileNameLen.CopyTo(clientData, 0);
+            fileNameByte.CopyTo(clientData, 4);
+            fileData.CopyTo(clientData, 4 + fileNameByte.Length);
+            s.Send(clientData, 0, clientData.Length, 0);
+        }
         private static void Download(Socket s, int n)
         {
             string receivedPath = @"files\";
@@ -56,7 +80,7 @@ namespace Server_FTP
             string fileName = Encoding.ASCII.GetString(clientData, 4, fileNameLen);
             Console.WriteLine($" >> Ricevuto da client N° {Convert.ToString(n)}: {fileName}");
 
-            BinaryWriter bWrite = new BinaryWriter(File.Open(receivedPath + fileName, FileMode.Create));
+            BinaryWriter bWrite = new BinaryWriter(File.Open(receivedPath + fileName, FileMode.OpenOrCreate));
             bWrite.Write(clientData, 4 + fileNameLen, receivedBytesLen - 4 - fileNameLen);
             while (receivedBytesLen > 0)
             {
@@ -74,16 +98,17 @@ namespace Server_FTP
         }
         private static void VisualizzaFile(Socket s)
         {
-            byte[] msg = new byte[1024];  
+            string a = "";
+            byte[] msg = new byte[1024];
             string path = @"files";
             List<string> lista = Directory.GetFiles(path).ToList();
-            foreach(string file in lista)
+            foreach (string file in lista)
             {
-                string a = file.Substring(6);
-                msg = Encoding.ASCII.GetBytes(a);
+                a += file.Substring(6);
+                a += "/";
             }
-            
-            int bytestSent = s.Send(msg);
+            msg = Encoding.ASCII.GetBytes(a);
+            s.Send(msg);
         }
 
 
