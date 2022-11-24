@@ -61,7 +61,7 @@ namespace Server_FTP
             messaggio = s.Receive(msg);
             data = Encoding.ASCII.GetString(msg, 0, messaggio);
             byte[] fileNameByte = Encoding.ASCII.GetBytes(data);
-            byte[] fileData = File.ReadAllBytes($"C:/Users/Nome/Documents/GitHub/Client-Server-FTP/Server-FTP/bin/Debug/net6.0/files{data}");
+            byte[] fileData = File.ReadAllBytes($"files/{data}");
             byte[] clientData = new byte[fileNameByte.Length + 4 + fileData.Length];
             byte[] fileNameLen = BitConverter.GetBytes(fileNameByte.Length);
 
@@ -80,21 +80,23 @@ namespace Server_FTP
             string fileName = Encoding.ASCII.GetString(clientData, 4, fileNameLen);
             Console.WriteLine($" >> Ricevuto da client N° {Convert.ToString(n)}: {fileName}");
 
-            BinaryWriter bWrite = new BinaryWriter(File.Open(receivedPath + fileName, FileMode.OpenOrCreate));
-            bWrite.Write(clientData, 4 + fileNameLen, receivedBytesLen - 4 - fileNameLen);
-            while (receivedBytesLen > 0)
+            using (var bWrite = File.Open(receivedPath + fileName, FileMode.OpenOrCreate))
             {
-                receivedBytesLen = s.Receive(clientData, clientData.Length, 0);
-                if (receivedBytesLen == 0)
+                bWrite.Write(clientData, 4 + fileNameLen, receivedBytesLen - 4 - fileNameLen);
+                while (receivedBytesLen > 0)
                 {
-                    bWrite.Close();
+                    receivedBytesLen = s.Receive(clientData, clientData.Length, 0);
+                    if (receivedBytesLen == 0)
+                    {
+                        bWrite.Close();
+                    }
+                    else
+                    {
+                        bWrite.Write(clientData, 0, receivedBytesLen);
+                    }
                 }
-                else
-                {
-                    bWrite.Write(clientData, 0, receivedBytesLen);
-                }
+            
             }
-            bWrite.Close();
         }
         private static void VisualizzaFile(Socket s)
         {

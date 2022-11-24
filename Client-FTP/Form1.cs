@@ -14,7 +14,7 @@ namespace Client_FTP
         private Socket socketClient;
         private byte[] msg = new byte[1024];
         private byte[] vis = new byte[1024];
-        private string path = @"files";
+        private string path = @"files\";
 
         public Form1()
         {
@@ -57,19 +57,14 @@ namespace Client_FTP
 
         }
 
-
-
-
-
-
-
-
         private void btn_download_Click(object sender, EventArgs e)
         {
             Download(socketClient);
+            new Thread(delegate ()
+                {
+                    Download(socketClient);
+                }).Start();
         }
-
-
 
         private void btm_start_Click(object sender, EventArgs e)
         {
@@ -152,21 +147,23 @@ namespace Client_FTP
             int receivedBytesLen = s.Receive(clientData, clientData.Length, 0);
             int fileNameLen = BitConverter.ToInt32(clientData, 0);
             string fileName = Encoding.ASCII.GetString(clientData, 4, fileNameLen);
-            BinaryWriter bWrite = new BinaryWriter(File.Open(path + fileName, FileMode.OpenOrCreate));
-            bWrite.Write(clientData, 4 + fileNameLen, receivedBytesLen - 4 - fileNameLen);
-            while (receivedBytesLen > 0)
+            using (var bWrite = File.Open(path + fileName, FileMode.OpenOrCreate))
             {
-                receivedBytesLen = s.Receive(clientData, clientData.Length, 0);
-                if (receivedBytesLen == 0)
+                bWrite.Write(clientData, 4 + fileNameLen, receivedBytesLen - 4 - fileNameLen);
+                while (receivedBytesLen > 0)
                 {
-                    bWrite.Close();
+                    receivedBytesLen = s.Receive(clientData, clientData.Length, 0);
+                    if (receivedBytesLen == 0)
+                    {
+                        bWrite.Close();
+                    }
+                    else
+                    {
+                        bWrite.Write(clientData, 0, receivedBytesLen);
+                    }
                 }
-                else
-                {
-                    bWrite.Write(clientData, 0, receivedBytesLen);
-                }
+
             }
-            bWrite.Close();
         }
 
         private void btn_list_Click(object sender, EventArgs e)
@@ -175,10 +172,7 @@ namespace Client_FTP
 
         }
 
-        private void list_box_files_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
+        
 
         private void btn_stop_Click(object sender, EventArgs e)
         {
