@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing.Text;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
@@ -68,7 +67,7 @@ namespace Client_FTP
 
         private void btm_start_Click(object sender, EventArgs e)
         {
-            Thread thread = new Thread(() => Connect());
+            Thread thread = new Thread(() => Connect(txt_ip.Text, txt_port.Text));
             btn_stop.Enabled = true;
             thread.Start();
         }
@@ -78,16 +77,16 @@ namespace Client_FTP
         {
             Upload(socketClient);
         }
-        
+
         private void Disconnect(Socket s)
         {
             s.Shutdown(SocketShutdown.Both);
             s.Close();
         }
-        private void Connect()
+        private void Connect(string ip, string port)
         {
-            IPAddress ipAddress = IPAddress.Parse("127.0.0.1");
-            IPEndPoint ipEnd = new IPEndPoint(ipAddress, 5000);
+            IPAddress ipAddress = IPAddress.Parse(ip);
+            IPEndPoint ipEnd = new IPEndPoint(ipAddress, int.Parse(port));
             socketClient = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
             socketClient.Connect(ipEnd);
             btn_list.Enabled = true;
@@ -131,7 +130,7 @@ namespace Client_FTP
             data = Encoding.ASCII.GetString(vis, 0, bytesRec);
             string[] file;
             file = data.Split('/');
-            foreach(string fileStr in file)
+            foreach (string fileStr in file)
             {
                 list_box_files.Items.Add(fileStr);
             }
@@ -172,7 +171,7 @@ namespace Client_FTP
 
         }
 
-        
+
 
         private void btn_stop_Click(object sender, EventArgs e)
         {

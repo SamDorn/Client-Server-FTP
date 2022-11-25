@@ -7,38 +7,37 @@ namespace Server_FTP
     class Program
 
     {
+        private static string data = "";
 
         public static void StartListening(Socket clientSocket, int n)
 
         {
-            byte[] msg = new byte[1024];
-            int messaggio = 0;
-            string data = "";
-        controllo:
             while (true)
             {
+                byte[] msg = new byte[1024];
+                int messaggio = 0;
+                
                 messaggio = clientSocket.Receive(msg);
                 data = Encoding.ASCII.GetString(msg, 0, messaggio);
-                if (data != "")
-                    break;
+                switch (data)
+                {
+                    case "u":
+                        Download(clientSocket, n);
+                        data = "";
+                        break;
+                    case "v":
+                        VisualizzaFile(clientSocket);
+                        data = "";
+                        break;
+                    case "d":
+                        Upload(clientSocket);
+                        break;
+                }
+                data = "";
+
+
             }
-            switch (data)
-            {
-                case "u":
-                    Download(clientSocket, n);
-                    data = "";
-                    goto controllo;
-                    break;
-                case "v":
-                    VisualizzaFile(clientSocket);
-                    data = "";
-                    goto controllo;
-                    break;
-                case "d":
-                    Upload(clientSocket);
-                    break;
-            }
-            data = "";
+
         }
 
         public static void visualizzaFile()
@@ -95,7 +94,7 @@ namespace Server_FTP
                         bWrite.Write(clientData, 0, receivedBytesLen);
                     }
                 }
-            
+
             }
         }
         private static void VisualizzaFile(Socket s)
@@ -125,13 +124,13 @@ namespace Server_FTP
             serverSocket.Bind(ipEnd);
             int counter = 0;
             serverSocket.Listen(100);
-            Console.WriteLine(" >> Server Started");
+            Console.WriteLine($" >> Server started and listening on port {ipEnd.Port.ToString()}");
 
             while (true)
 
             {
 
-                counter += 1;
+                counter++;
 
 
                 Socket clientSocket = serverSocket.Accept();
