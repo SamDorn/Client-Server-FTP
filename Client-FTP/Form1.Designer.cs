@@ -62,7 +62,7 @@
             // txt_ip
             // 
             this.txt_ip.Location = new System.Drawing.Point(20, 55);
-            this.txt_ip.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txt_ip.Margin = new System.Windows.Forms.Padding(4);
             this.txt_ip.Name = "txt_ip";
             this.txt_ip.Size = new System.Drawing.Size(144, 22);
             this.txt_ip.TabIndex = 0;
@@ -71,10 +71,11 @@
             // txt_port
             // 
             this.txt_port.Location = new System.Drawing.Point(169, 55);
-            this.txt_port.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txt_port.Margin = new System.Windows.Forms.Padding(4);
             this.txt_port.Name = "txt_port";
             this.txt_port.Size = new System.Drawing.Size(47, 22);
             this.txt_port.TabIndex = 1;
+            this.txt_port.Text = "5000";
             // 
             // label1
             // 
@@ -99,7 +100,7 @@
             // btm_start
             // 
             this.btm_start.Location = new System.Drawing.Point(225, 52);
-            this.btm_start.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btm_start.Margin = new System.Windows.Forms.Padding(4);
             this.btm_start.Name = "btm_start";
             this.btm_start.Size = new System.Drawing.Size(100, 28);
             this.btm_start.TabIndex = 4;
@@ -133,7 +134,7 @@
             // 
             this.txt_box_path.Enabled = false;
             this.txt_box_path.Location = new System.Drawing.Point(16, 156);
-            this.txt_box_path.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txt_box_path.Margin = new System.Windows.Forms.Padding(4);
             this.txt_box_path.Name = "txt_box_path";
             this.txt_box_path.Size = new System.Drawing.Size(200, 22);
             this.txt_box_path.TabIndex = 7;
@@ -151,7 +152,7 @@
             // prg_bar
             // 
             this.prg_bar.Location = new System.Drawing.Point(16, 529);
-            this.prg_bar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.prg_bar.Margin = new System.Windows.Forms.Padding(4);
             this.prg_bar.Name = "prg_bar";
             this.prg_bar.Size = new System.Drawing.Size(417, 28);
             this.prg_bar.TabIndex = 10;
@@ -160,7 +161,7 @@
             // 
             this.btn_upload.Enabled = false;
             this.btn_upload.Location = new System.Drawing.Point(333, 153);
-            this.btn_upload.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_upload.Margin = new System.Windows.Forms.Padding(4);
             this.btn_upload.Name = "btn_upload";
             this.btn_upload.Size = new System.Drawing.Size(100, 28);
             this.btn_upload.TabIndex = 11;
@@ -171,7 +172,7 @@
             // btn_help_upload
             // 
             this.btn_help_upload.Location = new System.Drawing.Point(441, 153);
-            this.btn_help_upload.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_help_upload.Margin = new System.Windows.Forms.Padding(4);
             this.btn_help_upload.Name = "btn_help_upload";
             this.btn_help_upload.Size = new System.Drawing.Size(37, 28);
             this.btn_help_upload.TabIndex = 12;
@@ -184,7 +185,7 @@
             this.list_box_files.FormattingEnabled = true;
             this.list_box_files.ItemHeight = 16;
             this.list_box_files.Location = new System.Drawing.Point(16, 261);
-            this.list_box_files.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.list_box_files.Margin = new System.Windows.Forms.Padding(4);
             this.list_box_files.Name = "list_box_files";
             this.list_box_files.Size = new System.Drawing.Size(461, 196);
             this.list_box_files.TabIndex = 13;
@@ -193,7 +194,7 @@
             // 
             this.btn_list.Enabled = false;
             this.btn_list.Location = new System.Drawing.Point(16, 214);
-            this.btn_list.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_list.Margin = new System.Windows.Forms.Padding(4);
             this.btn_list.Name = "btn_list";
             this.btn_list.Size = new System.Drawing.Size(417, 28);
             this.btn_list.TabIndex = 14;
@@ -204,7 +205,7 @@
             // btn_help_visualizza
             // 
             this.btn_help_visualizza.Location = new System.Drawing.Point(441, 214);
-            this.btn_help_visualizza.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_help_visualizza.Margin = new System.Windows.Forms.Padding(4);
             this.btn_help_visualizza.Name = "btn_help_visualizza";
             this.btn_help_visualizza.Size = new System.Drawing.Size(37, 28);
             this.btn_help_visualizza.TabIndex = 15;
@@ -216,7 +217,7 @@
             // 
             this.btn_download.Enabled = false;
             this.btn_download.Location = new System.Drawing.Point(16, 465);
-            this.btn_download.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_download.Margin = new System.Windows.Forms.Padding(4);
             this.btn_download.Name = "btn_download";
             this.btn_download.Size = new System.Drawing.Size(417, 28);
             this.btn_download.TabIndex = 16;
@@ -248,7 +249,7 @@
             // 
             this.btn_percorso.Enabled = false;
             this.btn_percorso.Location = new System.Drawing.Point(225, 153);
-            this.btn_percorso.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_percorso.Margin = new System.Windows.Forms.Padding(4);
             this.btn_percorso.Name = "btn_percorso";
             this.btn_percorso.Size = new System.Drawing.Size(100, 28);
             this.btn_percorso.TabIndex = 19;
@@ -260,7 +261,7 @@
             // 
             this.btn_stop.Enabled = false;
             this.btn_stop.Location = new System.Drawing.Point(333, 53);
-            this.btn_stop.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_stop.Margin = new System.Windows.Forms.Padding(4);
             this.btn_stop.Name = "btn_stop";
             this.btn_stop.Size = new System.Drawing.Size(100, 28);
             this.btn_stop.TabIndex = 20;
@@ -271,7 +272,7 @@
             // button10
             // 
             this.button10.Location = new System.Drawing.Point(441, 465);
-            this.button10.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button10.Margin = new System.Windows.Forms.Padding(4);
             this.button10.Name = "button10";
             this.button10.Size = new System.Drawing.Size(37, 28);
             this.button10.TabIndex = 21;
@@ -285,7 +286,7 @@
             // btn_help_server
             // 
             this.btn_help_server.Location = new System.Drawing.Point(441, 53);
-            this.btn_help_server.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_help_server.Margin = new System.Windows.Forms.Padding(4);
             this.btn_help_server.Name = "btn_help_server";
             this.btn_help_server.Size = new System.Drawing.Size(37, 28);
             this.btn_help_server.TabIndex = 22;
@@ -306,7 +307,7 @@
             // btn_help_progress
             // 
             this.btn_help_progress.Location = new System.Drawing.Point(441, 529);
-            this.btn_help_progress.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_help_progress.Margin = new System.Windows.Forms.Padding(4);
             this.btn_help_progress.Name = "btn_help_progress";
             this.btn_help_progress.Size = new System.Drawing.Size(37, 28);
             this.btn_help_progress.TabIndex = 24;
@@ -348,7 +349,7 @@
             this.Controls.Add(this.txt_port);
             this.Controls.Add(this.txt_ip);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.Text = "Client";
             this.Load += new System.EventHandler(this.Form1_Load);

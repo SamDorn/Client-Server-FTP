@@ -40,7 +40,7 @@ namespace Server_FTP
 
         }
 
-        public static void visualizzaFile()
+        public static void VisualizzaFile()
         {
             string path = @"files";
 
@@ -87,15 +87,18 @@ namespace Server_FTP
                     receivedBytesLen = s.Receive(clientData, clientData.Length, 0);
                     if (receivedBytesLen == 0)
                     {
-                        bWrite.Close();
+                        break;
                     }
                     else
                     {
                         bWrite.Write(clientData, 0, receivedBytesLen);
                     }
                 }
+                bWrite.Flush();
+                bWrite.Close();
 
             }
+
         }
         private static void VisualizzaFile(Socket s)
         {
@@ -145,7 +148,7 @@ namespace Server_FTP
                 */
                 Thread thread = new Thread(() => StartListening(clientSocket, counter));
                 thread.Start();
-                visualizzaFile();
+                VisualizzaFile();
 
             }
 

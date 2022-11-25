@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
@@ -58,7 +59,6 @@ namespace Client_FTP
 
         private void btn_download_Click(object sender, EventArgs e)
         {
-            Download(socketClient);
             new Thread(delegate ()
                 {
                     Download(socketClient);
@@ -67,15 +67,22 @@ namespace Client_FTP
 
         private void btm_start_Click(object sender, EventArgs e)
         {
-            Thread thread = new Thread(() => Connect(txt_ip.Text, txt_port.Text));
-            btn_stop.Enabled = true;
-            thread.Start();
+            //Thread thread = new Thread(() => Connect(txt_ip.Text, txt_port.Text));
+            //btn_stop.Enabled = true;
+            //thread.Start();
+            new Thread(delegate ()
+            {
+                Connect(txt_ip.Text, txt_port.Text);
+            }).Start();
         }
 
 
         private void btn_upload_Click(object sender, EventArgs e)
         {
-            Upload(socketClient);
+            new Thread(delegate ()
+            {
+                Upload(socketClient);
+            }).Start();
         }
 
         private void Disconnect(Socket s)
@@ -120,16 +127,21 @@ namespace Client_FTP
 
         private void Visualizza(Socket s)
         {
+
+            Debug.WriteLine("Inizio visualizza");
+
             btn_download.Enabled = true;
             list_box_files.Items.Clear();
             msg = Encoding.ASCII.GetBytes("v");
             s.Send(msg);
+            Debug.WriteLine("msg inviato: ");
 
             int bytesRec = s.Receive(vis);
             string data = null;
             data = Encoding.ASCII.GetString(vis, 0, bytesRec);
             string[] file;
             file = data.Split('/');
+            Debug.WriteLine("msg ricevuto: " +data);
             foreach (string fileStr in file)
             {
                 list_box_files.Items.Add(fileStr);
@@ -168,6 +180,8 @@ namespace Client_FTP
         private void btn_list_Click(object sender, EventArgs e)
         {
             Visualizza(socketClient);
+
+            
 
         }
 
