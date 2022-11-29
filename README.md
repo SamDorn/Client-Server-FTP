@@ -24,6 +24,7 @@ Feel free to use the :grey_question: at the right side of the application to und
 :x: Try/catch not implemented: if an error occurs it will not be handled; <br>
 :x: Stop button doesn't disconnect form the server properly;<br>
 :x: Progress bar not implemented;<br>
-
+:x: File size limited; <br>
+:x: For larger files, too much memory is allocated;
 
 
