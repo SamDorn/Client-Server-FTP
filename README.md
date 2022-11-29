@@ -22,7 +22,6 @@ Feel free to use the :grey_question: at the right side of the application to und
 ## Known bugs
 
 :x: Try/catch not implemented: if an error occurs it will not be handled; <br>
-:x: There is a problem with the Download() function in the server. It will not exit the while resulting in problems <br>
 :x: Stop button doesn't disconnect form the server properly;<br>
 :x: Progress bar not implemented;<br>
 
