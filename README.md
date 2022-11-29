@@ -13,7 +13,7 @@ byte[], to write the file with the received data.
 
 The uploaded files to the server will be saved in ___/Server-FTP/bin/Debug/net6.0/files/.___
 
-The downloaded files from the sever will be saved in ___/Client-FTP/bin/Debug/files/.___
+The downloaded files from the sever will be saved in the folder you select.
 ## How to use it
 Firstly you need to excecute the ___server-FTP.exe___ that you will find in ___/Server-FTP/bin/Debug/net6.0/.___
 Once the server is active and ready to receive you can excecute the ___client-FTP.exe___ that you will find in 
