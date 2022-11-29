@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Vladimir\\Documents\\GitHub\\Client-Server-FTP\\Server-FTP\\Server-FTP.csproj": {}
+    "C:\\Users\\mazzoni.22368\\Documents\\GitHub\\Client-Server-FTP\\Server-FTP\\Server-FTP.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Vladimir\\Documents\\GitHub\\Client-Server-FTP\\Server-FTP\\Server-FTP.csproj": {
+    "C:\\Users\\mazzoni.22368\\Documents\\GitHub\\Client-Server-FTP\\Server-FTP\\Server-FTP.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Vladimir\\Documents\\GitHub\\Client-Server-FTP\\Server-FTP\\Server-FTP.csproj",
+        "projectUniqueName": "C:\\Users\\mazzoni.22368\\Documents\\GitHub\\Client-Server-FTP\\Server-FTP\\Server-FTP.csproj",
         "projectName": "Server-FTP",
-        "projectPath": "C:\\Users\\Vladimir\\Documents\\GitHub\\Client-Server-FTP\\Server-FTP\\Server-FTP.csproj",
-        "packagesPath": "C:\\Users\\Vladimir\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Vladimir\\Documents\\GitHub\\Client-Server-FTP\\Server-FTP\\obj\\",
+        "projectPath": "C:\\Users\\mazzoni.22368\\Documents\\GitHub\\Client-Server-FTP\\Server-FTP\\Server-FTP.csproj",
+        "packagesPath": "C:\\Users\\mazzoni.22368\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\mazzoni.22368\\Documents\\GitHub\\Client-Server-FTP\\Server-FTP\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Vladimir\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\mazzoni.22368\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -26,7 +22,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -50,8 +45,7 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -60,7 +54,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
         }
       }
     }

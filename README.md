@@ -21,16 +21,10 @@ ___/Client-FTP/bin/Debug/.___ <br> <br>
 Feel free to use the :grey_question: at the right side of the application to understand better what to do
 ## Known bugs
 
-
-
-
-
 :x: Try/catch not implemented: if an error occurs it will not be handled; <br>
-:x: If multiple clients are connected and one client upload one file and the other one try to dowload it it will generate a System.IOException:"This file is being used by another process";<br>
-:x: At the moment you are allowed to do only one upload;<br>
-:x: If you press the view avilable files and the try to upload one file the Windows form will be frozen;<br>
+:x: There is a problem with the Download() function in the server. It will not exit the while resulting in problems <br>
 :x: Stop button doesn't disconnect form the server properly;<br>
 :x: Progress bar not implemented;<br>
-:x: To connect to a server it doesn't uses the data you type in the textbox provided, it uses port 5000;
+
 
 

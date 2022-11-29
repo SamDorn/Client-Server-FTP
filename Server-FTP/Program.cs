@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Diagnostics;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 
@@ -12,14 +13,18 @@ namespace Server_FTP
         public static void StartListening(Socket clientSocket, int n)
 
         {
+            byte[] msg = new byte[1024];
             while (true)
             {
-                byte[] msg = new byte[1024];
-                int messaggio = 0;
+
                 
-                messaggio = clientSocket.Receive(msg);
+                int messaggio = 0;
+
+                messaggio = clientSocket.Receive(msg, 1, 0);
                 data = Encoding.ASCII.GetString(msg, 0, messaggio);
+                Debug.WriteLine(data);
                 switch (data)
+
                 {
                     case "u":
                         Download(clientSocket, n);
@@ -34,6 +39,7 @@ namespace Server_FTP
                         break;
                 }
                 data = "";
+                Console.WriteLine(clientSocket.Connected.ToString());
 
 
             }
@@ -69,6 +75,8 @@ namespace Server_FTP
             fileData.CopyTo(clientData, 4 + fileNameByte.Length);
             s.Send(clientData, 0, clientData.Length, 0);
         }
+
+
         private static void Download(Socket s, int n)
         {
             string receivedPath = @"files\";
@@ -84,9 +92,20 @@ namespace Server_FTP
                 bWrite.Write(clientData, 4 + fileNameLen, receivedBytesLen - 4 - fileNameLen);
                 while (receivedBytesLen > 0)
                 {
+
+                    /*
+                     Il problema è nella successiva riga di comando, 
+                    Perchè quando il client fa un altra operazione e invia 
+                    quindi una lettera, la riceve lui e non lo switch in start listening.
+                    La riceve li e quindi non esce mai dal while. 
+                    Si può verificare mettendo nell if lo statament == 1, Infatti la lettera
+                    Corrisponde ad un carattere ASCII. L'if Sarà vero e quindi uscirà dalla funzione
+                    E andrà nello switch, se infatti si ripete l'operazione adesso sarà possibile
+                    eseguirla.
+                     */
                     receivedBytesLen = s.Receive(clientData, clientData.Length, 0);
-                    if (receivedBytesLen == 0)
-                    {
+                    if (receivedBytesLen == 0 || receivedBytesLen == 1)
+                    { 
                         break;
                     }
                     else
@@ -96,6 +115,7 @@ namespace Server_FTP
                 }
                 bWrite.Flush();
                 bWrite.Close();
+
 
             }
 
@@ -127,7 +147,7 @@ namespace Server_FTP
             serverSocket.Bind(ipEnd);
             int counter = 0;
             serverSocket.Listen(100);
-            Console.WriteLine($" >> Server started and listening on port {ipEnd.Port.ToString()}");
+            Console.WriteLine($" >> Server started and listening on port {ipEnd.Port}");
 
             while (true)
 
@@ -148,7 +168,6 @@ namespace Server_FTP
                 */
                 Thread thread = new Thread(() => StartListening(clientSocket, counter));
                 thread.Start();
-                VisualizzaFile();
 
             }
 

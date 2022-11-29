@@ -12,8 +12,6 @@ namespace Client_FTP
     public partial class Form1 : Form
     {
         private Socket socketClient;
-        private byte[] msg = new byte[1024];
-        private byte[] vis = new byte[1024];
         private string path = @"files\";
 
         public Form1()
@@ -27,35 +25,36 @@ namespace Client_FTP
         private void btn_help_server_Click(object sender, EventArgs e)
         {
             MessageBox.Show("L'indirizzo ip del server locale è 127.0.0.1, non modificare se non si sa cosa si sta facendo, utilizzare la porta con cui il server " +
-                "ha aperto la connessione\nStart: per avviare la connessione \nStop: per fermare la connessione", "Aiuto connessione server");
+                "ha aperto la connessione\nStart: per avviare la connessione \nStop: per fermare la connessione", "Aiuto connessione server", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void btn_help_progress_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Questa barra visulizza il caricamento di upload/download di un file.", "Aiuto barra progressi");
+            MessageBox.Show("Questa barra visulizza il caricamento di upload/download di un file.", "Aiuto barra progressi", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void btn_help_upload_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Browse: per selezionare il file da inviare\nCarica: per caricare il file sul server", "Aiuto upload");
+            MessageBox.Show("Browse: per selezionare il file da inviare\nCarica: per caricare il file sul server", "Aiuto upload", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void but_help_visualizza_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Visualizza i file disponibili sul server per il download", "Aiuto visualizza file");
+            MessageBox.Show("Visualizza i file disponibili sul server per il download", "Aiuto visualizza file", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+        private void btn_help_download_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Scarica il file selezionato nella cartella " + Path.GetFullPath(path), "Aiuto download", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
         #endregion
-
-
-
         private void but_percorso_Click(object sender, EventArgs e)
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 txt_box_path.Text = openFileDialog1.FileName;
             }
-
         }
+        
 
         private void btn_download_Click(object sender, EventArgs e)
         {
@@ -103,6 +102,10 @@ namespace Client_FTP
         }
         private void Upload(Socket s)
         {
+
+
+            byte[] msg = new byte[1024];
+            byte[] vis = new byte[1024];
             msg = Encoding.ASCII.GetBytes("u");
             s.Send(msg);
             string filePath = "";
@@ -130,18 +133,23 @@ namespace Client_FTP
 
             Debug.WriteLine("Inizio visualizza");
 
+
+            byte[] msg = new byte[1024];
+            byte[] vis = new byte[1024];
             btn_download.Enabled = true;
             list_box_files.Items.Clear();
             msg = Encoding.ASCII.GetBytes("v");
+            Debug.WriteLine(Encoding.ASCII.GetString(msg));
             s.Send(msg);
-            Debug.WriteLine("msg inviato: ");
+            Debug.WriteLine("msg inviato: " + msg);
 
             int bytesRec = s.Receive(vis);
-            string data = null;
+            Debug.WriteLine("msg ricevuto: " + bytesRec);
+            string data = "";
             data = Encoding.ASCII.GetString(vis, 0, bytesRec);
             string[] file;
             file = data.Split('/');
-            Debug.WriteLine("msg ricevuto: " +data);
+            Debug.WriteLine("msg ricevuto: " + data);
             foreach (string fileStr in file)
             {
                 list_box_files.Items.Add(fileStr);
@@ -149,6 +157,9 @@ namespace Client_FTP
         }
         private void Download(Socket s)
         {
+
+            byte[] msg = new byte[1024];
+            byte[] vis = new byte[1024];
 
             msg = Encoding.ASCII.GetBytes("d");
             s.Send(msg);
@@ -179,9 +190,10 @@ namespace Client_FTP
 
         private void btn_list_Click(object sender, EventArgs e)
         {
-            Visualizza(socketClient);
+            Thread thread = new Thread(() => Visualizza(socketClient));
+            thread.Start();
 
-            
+
 
         }
 
@@ -197,5 +209,7 @@ namespace Client_FTP
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
         }
+
+        
     }
 }
