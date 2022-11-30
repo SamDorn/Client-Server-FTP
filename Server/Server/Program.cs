@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Net.Sockets;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Server_FTP
@@ -42,56 +43,42 @@ namespace Server_FTP
         }
         private static void Download(Socket s, int n)
         {
+            byte[] data = new byte[4096];
             string receivedPath = @"files\";
-            byte[] clientData = new byte[4096];
-            int receivedBytesLen = s.Receive(clientData, clientData.Length, 0);
-            int fileNameLen = BitConverter.ToInt32(clientData, 0);
-            string fileName = Encoding.ASCII.GetString(clientData, 4, fileNameLen);
-
-            using (var bWrite = File.Open(receivedPath + fileName, FileMode.OpenOrCreate))
+            int nFile = s.Receive(data);
+            string fileName = Encoding.ASCII.GetString(data);
+            fileName = fileName.Replace("\0", string.Empty);
+            Console.WriteLine(fileName);
+            FileStream fs = new FileStream(receivedPath + fileName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+            while (true)
             {
-                bWrite.Write(clientData, 4 + fileNameLen, receivedBytesLen - 4 - fileNameLen);
-                while (receivedBytesLen > 0)
+                nFile = s.Receive(data);
+                string bre = Encoding.ASCII.GetString(data);
+                if (bre.IndexOf("CIAO") > -1)
                 {
-                    receivedBytesLen = s.Receive(clientData, clientData.Length, 0);
-                    string data = Encoding.ASCII.GetString(clientData);
-                    if (data.IndexOf("CIAO") > -1)
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        bWrite.Write(clientData, 0, receivedBytesLen);
-                    }
+                    break;
                 }
-                bWrite.Flush();
-                bWrite.Close();
-
-                Console.WriteLine($" >> Ricevuto da client N° {Convert.ToString(n-1)}: {fileName}");
-
-
-            }
+                else
+                {
+                    fs.Write(data, 0, nFile);
+                }
+            } 
+            fs.Flush();
+            fs.Close();
+            Console.WriteLine($" >> Ricevuto da client N° {Convert.ToString(n - 1)}: {fileName} alle ore {DateTime.Now.ToString("HH:mm:ss")}");
 
         }
         private static void Upload(Socket s, int n)
         {
             byte[] msg = new byte[1024];
-            int messaggio = 0;
-            string data = "";
             byte[] terminator = Encoding.ASCII.GetBytes("CIAO");
+            int messaggio = 0;
             messaggio = s.Receive(msg);
-            data = Encoding.ASCII.GetString(msg, 0, messaggio);
-            byte[] fileNameByte = Encoding.ASCII.GetBytes(data);
-            byte[] fileData = File.ReadAllBytes($"files/{data}");
-            byte[] clientData = new byte[fileNameByte.Length + 4 + fileData.Length];
-            byte[] fileNameLen = BitConverter.GetBytes(fileNameByte.Length);
-
-            fileNameLen.CopyTo(clientData, 0);
-            fileNameByte.CopyTo(clientData, 4);
-            fileData.CopyTo(clientData, 4 + fileNameByte.Length);
-            s.Send(clientData, 0, clientData.Length, 0);
+            string data = Encoding.ASCII.GetString(msg);
+            data = data.Replace("\0", string.Empty);
+            s.SendFile(@"files/" + data);
             s.Send(terminator);
-            Console.WriteLine($" >> Download effettuato dal client N°{n-1} di {data}");
+            Console.WriteLine($" >> Download effettuato dal client N°{n - 1} di {data} alle ore {DateTime.Now.ToString("HH:mm:ss")}");
         }
 
 

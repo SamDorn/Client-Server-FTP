@@ -14,7 +14,9 @@ namespace Client_FTP
     public partial class Form1 : Form
     {
         private Socket socketClient;
+        private string his = "";
         private string path;
+        private History history;
 
         public Form1()
         {
@@ -48,6 +50,10 @@ namespace Client_FTP
         {
             MessageBox.Show("Scarica il file selezionato nella cartella " + Path.GetFullPath(path), "Aiuto download", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+        private void btn_help_history_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Questo pulsante ermette di aprire una nuova finestra e visualizzare lo storico delle operazioni.", "Aiuto visualizza storico", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
         #endregion
         private void but_percorso_Click(object sender, EventArgs e)
         {
@@ -66,10 +72,9 @@ namespace Client_FTP
             thread.Start();
         }
 
-        private void btm_start_Click(object sender, EventArgs e)
+        private void btn_start_Click(object sender, EventArgs e)
         {
             Thread thread = new Thread(() => Connect(txt_ip.Text, txt_port.Text));
-            //btn_stop.Enabled = true;
             thread.Start();
            
         }
@@ -81,10 +86,12 @@ namespace Client_FTP
             thread.Start();
         }
 
-        private void Disconnect(Socket s)
+        private void Disconnect(Socket s, string ip)
         {
             s.Shutdown(SocketShutdown.Both);
             s.Close();
+            label9.Text = $"Disconnesso dall'HOST {ip} alle ore {DateTime.Now.ToString("HH:mm:ss")}";
+            his += label9.Text + "\r\n";
         }
         private void Connect(string ip, string port)
         {
@@ -94,14 +101,14 @@ namespace Client_FTP
             socketClient.Connect(ipEnd);
             btn_list.Enabled = true;
             btn_upload.Enabled = true;
-            txt_box_path.Enabled = true;
             btn_percorso.Enabled = true;
-            btm_start.Enabled = false;
+            btn_start.Enabled = false;
+            btn_stop.Enabled = true;
+            label9.Text = $"Connesso all'HOST {ip} sulla porta {port} alle ore {DateTime.Now.ToString("HH:mm:ss")}";
+            his += label9.Text + "\r\n";
         }
         private void Upload(Socket s)
         {
-            int lastStatus = 0;
-            int numBytes = 0;
             prg_bar.Enabled = true;
             byte[] terminator = Encoding.ASCII.GetBytes("CIAO");
             byte[] msg = Encoding.ASCII.GetBytes("u");
@@ -115,22 +122,13 @@ namespace Client_FTP
                 fileName = fileName.Substring(fileName.IndexOf("/") + 1);
             }
             byte[] fileNameByte = Encoding.ASCII.GetBytes(fileName);
-
-            byte[] fileData = File.ReadAllBytes(txt_box_path.Text);
-            byte[] clientData = new byte[fileNameByte.Length + 4 + fileData.Length];
-            byte[] fileNameLen = BitConverter.GetBytes(fileNameByte.Length);
-            long bytesSoFar = 0, totalBytes = clientData.Length;
-            fileNameLen.CopyTo(clientData, 0);
-            fileNameByte.CopyTo(clientData, 4);
-            fileData.CopyTo(clientData, 4 + fileNameByte.Length);
-
-            s.Send(clientData, 0, clientData.Length, 0);
+            s.Send(fileNameByte);
+            Thread.Sleep(50);
+            s.SendFile(txt_box_path.Text);
             s.Send(terminator);
-            
-            
-
+            label9.Text = $"Caricato {fileName} alle ore {DateTime.Now.ToString("HH:mm:ss")}";
+            his += label9.Text + "\r\n";
         }
-
         private void Visualizza(Socket s)
         {
 
@@ -155,38 +153,34 @@ namespace Client_FTP
         }
         private void Download(Socket s, string str)
         {
-
+            string file = list_box_files.SelectedItem.ToString();
             byte[] msg = new byte[1024];
-            byte[] vis = new byte[1024];
-            string data = "";
             msg = Encoding.ASCII.GetBytes("d");
             s.Send(msg);
-            msg = Encoding.ASCII.GetBytes(list_box_files.SelectedItem.ToString());
-            s.Send(msg);
+            Thread.Sleep(50);
             byte[] clientData = new byte[4096];
-            int receivedBytesLen = s.Receive(clientData, clientData.Length, 0);
-            int fileNameLen = BitConverter.ToInt32(clientData, 0);
-            string fileName = Encoding.ASCII.GetString(clientData, 4, fileNameLen);
-            using (var bWrite = File.Open(str + fileName, FileMode.OpenOrCreate))
+            msg = Encoding.ASCII.GetBytes(file);
+            s.Send(msg);
+            int nFile = 0;
+            FileStream fs = new FileStream(str + file, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+            while (true)
             {
-                bWrite.Write(clientData, 4 + fileNameLen, receivedBytesLen - 4 - fileNameLen);
-                while (receivedBytesLen > 0)
+                nFile = s.Receive(clientData);
+                string bre = Encoding.ASCII.GetString(clientData);
+                if (bre.IndexOf("CIAO") > -1)
                 {
-                    receivedBytesLen = s.Receive(clientData, clientData.Length, 0);
-                    data = Encoding.ASCII.GetString(clientData);
-                    if (data.IndexOf("CIAO") > -1)
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        bWrite.Write(clientData, 0, receivedBytesLen);
-                    }
+                    break;
                 }
-                bWrite.Flush();
-                bWrite.Close();
-
+                else
+                {
+                    fs.Write(clientData, 0, nFile);
+                }
             }
+            label9.Text = $"Scaricato {file} alle ore {DateTime.Now.ToString("HH:mm:ss")}";
+            his += label9.Text + "\r\n";
+            fs.Flush();
+            fs.Close();
+        
         }
 
         private void btn_list_Click(object sender, EventArgs e)
@@ -199,7 +193,7 @@ namespace Client_FTP
 
         private void btn_stop_Click(object sender, EventArgs e)
         {
-            Disconnect(socketClient);
+            Disconnect(socketClient, txt_ip.Text);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -207,12 +201,13 @@ namespace Client_FTP
 
         }
 
-        /*private void Form1_Load(object sender, EventArgs e)
+        private void btn_history_Click(object sender, EventArgs e)
         {
-            if (!Directory.Exists(path))
-                Directory.CreateDirectory(path);
-        }*/
+            history = new History();
+            history.Write(his);
+            history.Show();
+        }
 
-
+        
     }
 }

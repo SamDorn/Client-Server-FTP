@@ -53,3 +53,4 @@ C:\Users\Nome\Documents\GitHub\Client-Server-FTP\Client\Client-FTP\obj\Debug\Cli
 C:\Users\Nome\Documents\GitHub\Client-Server-FTP\Client\Client-FTP\obj\Debug\Client-FTP.csproj.CoreCompileInputs.cache
 C:\Users\Nome\Documents\GitHub\Client-Server-FTP\Client\Client-FTP\obj\Debug\Client-FTP.exe
 C:\Users\Nome\Documents\GitHub\Client-Server-FTP\Client\Client-FTP\obj\Debug\Client-FTP.pdb
+C:\Users\Nome\Documents\GitHub\Client-Server-FTP\Client\Client-FTP\obj\Debug\Client_FTP.History.resources

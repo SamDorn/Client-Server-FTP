@@ -28,12 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.txt_ip = new System.Windows.Forms.TextBox();
             this.txt_port = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.btm_start = new System.Windows.Forms.Button();
+            this.btn_start = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.txt_box_path = new System.Windows.Forms.TextBox();
@@ -55,14 +54,16 @@
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.label8 = new System.Windows.Forms.Label();
             this.btn_help_progress = new System.Windows.Forms.Button();
-            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.form1BindingSource = new System.Windows.Forms.BindingSource(this.components);
-            ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource)).BeginInit();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.btn_history = new System.Windows.Forms.Button();
+            this.btn_help_history = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // txt_ip
             // 
-            this.txt_ip.Location = new System.Drawing.Point(15, 45);
+            this.txt_ip.Location = new System.Drawing.Point(12, 45);
             this.txt_ip.Name = "txt_ip";
             this.txt_ip.Size = new System.Drawing.Size(109, 20);
             this.txt_ip.TabIndex = 0;
@@ -88,27 +89,27 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(14, 31);
+            this.label2.Location = new System.Drawing.Point(9, 29);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(17, 13);
             this.label2.TabIndex = 3;
             this.label2.Text = "IP";
             // 
-            // btm_start
+            // btn_start
             // 
-            this.btm_start.Location = new System.Drawing.Point(169, 42);
-            this.btm_start.Name = "btm_start";
-            this.btm_start.Size = new System.Drawing.Size(75, 23);
-            this.btm_start.TabIndex = 4;
-            this.btm_start.Text = "Start";
-            this.btm_start.UseVisualStyleBackColor = true;
-            this.btm_start.Click += new System.EventHandler(this.btm_start_Click);
+            this.btn_start.Location = new System.Drawing.Point(169, 42);
+            this.btn_start.Name = "btn_start";
+            this.btn_start.Size = new System.Drawing.Size(75, 23);
+            this.btn_start.TabIndex = 4;
+            this.btn_start.Text = "Start";
+            this.btn_start.UseVisualStyleBackColor = true;
+            this.btn_start.Click += new System.EventHandler(this.btn_start_Click);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(12, 9);
+            this.label3.Location = new System.Drawing.Point(8, 9);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(103, 20);
             this.label3.TabIndex = 5;
@@ -126,9 +127,9 @@
             // 
             // txt_box_path
             // 
-            this.txt_box_path.Enabled = false;
             this.txt_box_path.Location = new System.Drawing.Point(12, 127);
             this.txt_box_path.Name = "txt_box_path";
+            this.txt_box_path.ReadOnly = true;
             this.txt_box_path.Size = new System.Drawing.Size(151, 20);
             this.txt_box_path.TabIndex = 7;
             // 
@@ -143,8 +144,9 @@
             // 
             // prg_bar
             // 
+            this.prg_bar.BackColor = System.Drawing.SystemColors.Control;
             this.prg_bar.Enabled = false;
-            this.prg_bar.Location = new System.Drawing.Point(12, 430);
+            this.prg_bar.Location = new System.Drawing.Point(12, 480);
             this.prg_bar.Name = "prg_bar";
             this.prg_bar.Size = new System.Drawing.Size(313, 23);
             this.prg_bar.TabIndex = 10;
@@ -260,6 +262,10 @@
             this.btn_help_download.UseVisualStyleBackColor = true;
             this.btn_help_download.Click += new System.EventHandler(this.btn_help_download_Click);
             // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.Title = "Browse";
+            // 
             // btn_help_server
             // 
             this.btn_help_server.Location = new System.Drawing.Point(331, 43);
@@ -273,7 +279,8 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(140, 414);
+            this.label8.BackColor = System.Drawing.SystemColors.Control;
+            this.label8.Location = new System.Drawing.Point(139, 485);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(71, 13);
             this.label8.TabIndex = 23;
@@ -281,7 +288,7 @@
             // 
             // btn_help_progress
             // 
-            this.btn_help_progress.Location = new System.Drawing.Point(331, 430);
+            this.btn_help_progress.Location = new System.Drawing.Point(331, 480);
             this.btn_help_progress.Name = "btn_help_progress";
             this.btn_help_progress.Size = new System.Drawing.Size(28, 23);
             this.btn_help_progress.TabIndex = 24;
@@ -289,15 +296,65 @@
             this.btn_help_progress.UseVisualStyleBackColor = true;
             this.btn_help_progress.Click += new System.EventHandler(this.btn_help_progress_Click);
             // 
-            // form1BindingSource
+            // label9
             // 
-            this.form1BindingSource.DataSource = typeof(Client_FTP.Form1);
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(9, 506);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(16, 13);
+            this.label9.TabIndex = 25;
+            this.label9.Text = "   ";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(8, 431);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(123, 20);
+            this.label10.TabIndex = 26;
+            this.label10.Text = "Status/History";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(130, 438);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(229, 13);
+            this.label11.TabIndex = 27;
+            this.label11.Text = "_____________________________________";
+            // 
+            // btn_history
+            // 
+            this.btn_history.Location = new System.Drawing.Point(13, 544);
+            this.btn_history.Name = "btn_history";
+            this.btn_history.Size = new System.Drawing.Size(312, 23);
+            this.btn_history.TabIndex = 28;
+            this.btn_history.Text = "Visualizza Storico";
+            this.btn_history.UseVisualStyleBackColor = true;
+            this.btn_history.Click += new System.EventHandler(this.btn_history_Click);
+            // 
+            // btn_help_history
+            // 
+            this.btn_help_history.Location = new System.Drawing.Point(331, 544);
+            this.btn_help_history.Name = "btn_help_history";
+            this.btn_help_history.Size = new System.Drawing.Size(28, 23);
+            this.btn_help_history.TabIndex = 29;
+            this.btn_help_history.Text = "?";
+            this.btn_help_history.UseVisualStyleBackColor = true;
+            this.btn_help_history.Click += new System.EventHandler(this.btn_help_history_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(383, 493);
+            this.BackColor = System.Drawing.SystemColors.Control;
+            this.ClientSize = new System.Drawing.Size(374, 583);
+            this.Controls.Add(this.btn_help_history);
+            this.Controls.Add(this.btn_history);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.label9);
             this.Controls.Add(this.btn_help_progress);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.btn_help_server);
@@ -317,7 +374,7 @@
             this.Controls.Add(this.txt_box_path);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.btm_start);
+            this.Controls.Add(this.btn_start);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txt_port);
@@ -326,7 +383,6 @@
             this.Name = "Form1";
             this.Text = "Client";
             this.Load += new System.EventHandler(this.Form1_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -338,7 +394,7 @@
         private System.Windows.Forms.TextBox txt_port;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button btm_start;
+        private System.Windows.Forms.Button btn_start;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txt_box_path;
@@ -360,8 +416,11 @@
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button btn_help_progress;
-        private System.Windows.Forms.BindingSource form1BindingSource;
-        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Button btn_history;
+        private System.Windows.Forms.Button btn_help_history;
     }
 }
 
