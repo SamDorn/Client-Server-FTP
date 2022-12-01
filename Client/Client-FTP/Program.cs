@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace Client_FTP
+namespace Client
 {
     internal static class Program
     {

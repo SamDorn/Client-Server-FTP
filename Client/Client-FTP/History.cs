@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Client_FTP
+namespace Client
 {
     public partial class History : Form
     {
@@ -25,5 +18,7 @@ namespace Client_FTP
         {
             txt_box_history.AppendText(s);
         }
+
+
     }
 }

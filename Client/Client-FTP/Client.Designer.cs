@@ -1,4 +1,7 @@
-﻿namespace Client_FTP
+﻿using System.Drawing;
+using System.Windows.Forms;
+
+namespace Client
 {
     partial class Form1
     {
@@ -28,6 +31,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.txt_ip = new System.Windows.Forms.TextBox();
             this.txt_port = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -59,6 +63,7 @@
             this.label11 = new System.Windows.Forms.Label();
             this.btn_history = new System.Windows.Forms.Button();
             this.btn_help_history = new System.Windows.Forms.Button();
+            this.timer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // txt_ip
@@ -144,7 +149,9 @@
             // 
             // prg_bar
             // 
-            this.prg_bar.BackColor = System.Drawing.SystemColors.Control;
+
+            
+            this.prg_bar.BackColor = Color.Black;
             this.prg_bar.Enabled = false;
             this.prg_bar.Location = new System.Drawing.Point(12, 480);
             this.prg_bar.Name = "prg_bar";
@@ -239,7 +246,7 @@
             this.btn_percorso.TabIndex = 19;
             this.btn_percorso.Text = "Browse";
             this.btn_percorso.UseVisualStyleBackColor = true;
-            this.btn_percorso.Click += new System.EventHandler(this.but_percorso_Click);
+            this.btn_percorso.Click += new System.EventHandler(this.btn_percorso_Click);
             // 
             // btn_stop
             // 
@@ -344,6 +351,10 @@
             this.btn_help_history.UseVisualStyleBackColor = true;
             this.btn_help_history.Click += new System.EventHandler(this.btn_help_history_Click);
             // 
+            // timer
+            // 
+            this.timer.Enabled = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -382,6 +393,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "Form1";
             this.Text = "Client";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -421,6 +433,7 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Button btn_history;
         private System.Windows.Forms.Button btn_help_history;
+        private System.Windows.Forms.Timer timer;
     }
 }
 

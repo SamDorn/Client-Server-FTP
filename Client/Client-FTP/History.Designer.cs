@@ -1,4 +1,4 @@
-﻿namespace Client_FTP
+﻿namespace Client
 {
     partial class History
     {
@@ -51,14 +51,14 @@
             this.btn_ok.UseVisualStyleBackColor = true;
             this.btn_ok.Click += new System.EventHandler(this.btn_ok_Click);
             // 
-            // Hystory
+            // History
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(374, 450);
             this.Controls.Add(this.btn_ok);
             this.Controls.Add(this.txt_box_history);
-            this.Name = "Hystory";
+            this.Name = "History";
             this.Text = "Hystory";
             this.ResumeLayout(false);
             this.PerformLayout();
