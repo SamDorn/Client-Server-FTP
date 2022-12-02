@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -89,9 +88,17 @@ namespace Client
         private void btn_start_Click(object sender, EventArgs e)
         {
             port = Int32.Parse(txt_port.Text);
-            ip = txt_ip.Text;
-            Thread thread = new Thread(() => Connect());
-            thread.Start();
+            if(port > 34665)
+            {
+                MessageBox.Show("Porta inserita non valida", "Errore", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else
+            {
+
+                ip = txt_ip.Text;
+                Thread thread = new Thread(() => Connect());
+                thread.Start();
+            }
 
         }
 
@@ -206,6 +213,7 @@ namespace Client
                         filePath += fileName.Substring(0, fileName.IndexOf("/") + 1);
                         fileName = fileName.Substring(fileName.IndexOf("/") + 1);
                     }
+                    label9.Text = $"Caricando {fileName}";
                     byte[] fileNameByte = Encoding.ASCII.GetBytes(fileName);
                     s.Send(fileNameByte);
                     /*
@@ -224,28 +232,19 @@ namespace Client
                     {
                         if (socketClient.Send(filechunk, numBytes, SocketFlags.None) != numBytes)
                         {
-                            MessageBox.Show("Error in sending the file");
+                            MessageBox.Show("Errore nel trasmettere il file", "Errore", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            break;
                         }
                         bytesSoFar += numBytes;
                         Byte progress = (byte)(bytesSoFar * 100 / totalBytes);
-                        //if (progress > lastStatus)
-                        //{
-                        if (prg_bar.Value != 100)
-                        {
-                            prg_bar.Value = progress;
-                            prg_bar.CreateGraphics().DrawString(progress + "%",
-                                new Font("Arial", (float)10, FontStyle.Regular),
-                            Brushes.Black,
-                                new PointF(prg_bar.Width / 2 - 10, prg_bar.Height / 2 - 7));
-
-                        }
-
-                        //}
+                        prg_bar.Value = progress;
+                        label9.Text = $"Caricando {fileName}...{progress}%";
                     }
                     s.Send(terminator);
                     file.Close();
                     label9.Text = $"Caricato {fileName} alle ore {DateTime.Now.ToString("HH:mm:ss")}";
                     his += label9.Text + "\r\n";
+                    Thread.Sleep(2000);
                     prg_bar.Value = 0;
                 }
                 catch (SocketException e)
@@ -275,7 +274,6 @@ namespace Client
 
                 }
             }
-
         }
         private void Visualizza(Socket s)
         {
@@ -310,7 +308,6 @@ namespace Client
                 MessageBox.Show(e.Message + "\r\nMi sto scollegando", "Problema", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 ForceDisconnect(socketClient);
             }
-
         }
         private void Download(Socket s, string str)
         {
@@ -375,13 +372,6 @@ namespace Client
 
 
         }
-
-
-
-
-
-
-
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
 
@@ -392,8 +382,8 @@ namespace Client
 
         private void txt_ip_KeyPress(object sender, KeyPressEventArgs e)
         {
-             if (!char.IsDigit(e.KeyChar) && e.KeyChar != '.' && e.KeyChar!= '\b')
-                    e.Handled = true;
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != '.' && e.KeyChar != '\b')
+                e.Handled = true;
         }
 
         private void txt_port_KeyPress(object sender, KeyPressEventArgs e)
@@ -404,7 +394,7 @@ namespace Client
 
         private void txt_port_TextChanged(object sender, EventArgs e)
         {
-            
+
         }
     }
 }
