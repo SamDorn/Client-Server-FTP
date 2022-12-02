@@ -139,7 +139,6 @@ namespace Server
                 }
                 msg = Encoding.ASCII.GetBytes(a);
                 s.Send(msg);
-                //s.Send(terminator);
                 Console.WriteLine($" >> Richista la lista di file disponibili dal client N°{n - 1} alle ore {DateTime.Now.ToString("HH:mm:ss")}");
 
             }

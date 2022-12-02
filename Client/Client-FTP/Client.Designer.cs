@@ -31,7 +31,6 @@ namespace Client
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.txt_ip = new System.Windows.Forms.TextBox();
             this.txt_port = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -63,7 +62,6 @@ namespace Client
             this.label11 = new System.Windows.Forms.Label();
             this.btn_history = new System.Windows.Forms.Button();
             this.btn_help_history = new System.Windows.Forms.Button();
-            this.timer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // txt_ip
@@ -149,10 +147,7 @@ namespace Client
             // 
             // prg_bar
             // 
-
-            
-            this.prg_bar.BackColor = Color.Black;
-            this.prg_bar.Enabled = false;
+            this.prg_bar.BackColor = System.Drawing.Color.Black;
             this.prg_bar.Location = new System.Drawing.Point(12, 480);
             this.prg_bar.Name = "prg_bar";
             this.prg_bar.Size = new System.Drawing.Size(313, 23);
@@ -351,10 +346,6 @@ namespace Client
             this.btn_help_history.UseVisualStyleBackColor = true;
             this.btn_help_history.Click += new System.EventHandler(this.btn_help_history_Click);
             // 
-            // timer
-            // 
-            this.timer.Enabled = true;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -433,7 +424,6 @@ namespace Client
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Button btn_history;
         private System.Windows.Forms.Button btn_help_history;
-        private System.Windows.Forms.Timer timer;
     }
 }
 

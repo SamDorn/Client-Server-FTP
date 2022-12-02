@@ -10,3 +10,15 @@ C:\Users\Nome\Documents\GitHub\Client-Server-FTP\Client\Client-FTP\obj\Debug\Cli
 C:\Users\Nome\Documents\GitHub\Client-Server-FTP\Client\Client-FTP\bin\Debug\Client-FTP.exe.config
 C:\Users\Nome\Documents\GitHub\Client-Server-FTP\Client\Client-FTP\bin\Debug\Client-FTP.exe
 C:\Users\Nome\Documents\GitHub\Client-Server-FTP\Client\Client-FTP\bin\Debug\Client-FTP.pdb
+C:\Users\mazzoni.22368\Documents\GitHub\Client-Server-FTP\Client\Client-FTP\bin\Debug\Client-FTP.exe.config
+C:\Users\mazzoni.22368\Documents\GitHub\Client-Server-FTP\Client\Client-FTP\bin\Debug\Client-FTP.exe
+C:\Users\mazzoni.22368\Documents\GitHub\Client-Server-FTP\Client\Client-FTP\bin\Debug\Client-FTP.pdb
+C:\Users\mazzoni.22368\Documents\GitHub\Client-Server-FTP\Client\Client-FTP\obj\Debug\Client_FTP.csproj.AssemblyReference.cache
+C:\Users\mazzoni.22368\Documents\GitHub\Client-Server-FTP\Client\Client-FTP\obj\Debug\Client_FTP.csproj.SuggestedBindingRedirects.cache
+C:\Users\mazzoni.22368\Documents\GitHub\Client-Server-FTP\Client\Client-FTP\obj\Debug\Client.Form1.resources
+C:\Users\mazzoni.22368\Documents\GitHub\Client-Server-FTP\Client\Client-FTP\obj\Debug\Client.History.resources
+C:\Users\mazzoni.22368\Documents\GitHub\Client-Server-FTP\Client\Client-FTP\obj\Debug\Client_FTP.Properties.Resources.resources
+C:\Users\mazzoni.22368\Documents\GitHub\Client-Server-FTP\Client\Client-FTP\obj\Debug\Client_FTP.csproj.GenerateResource.cache
+C:\Users\mazzoni.22368\Documents\GitHub\Client-Server-FTP\Client\Client-FTP\obj\Debug\Client_FTP.csproj.CoreCompileInputs.cache
+C:\Users\mazzoni.22368\Documents\GitHub\Client-Server-FTP\Client\Client-FTP\obj\Debug\Client-FTP.exe
+C:\Users\mazzoni.22368\Documents\GitHub\Client-Server-FTP\Client\Client-FTP\obj\Debug\Client-FTP.pdb

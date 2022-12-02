@@ -180,7 +180,6 @@ namespace Client
         }
         private void Upload(Socket s)
         {
-            timer.Start();
             if (!(txt_box_path.Text == ""))
             {
                 prg_bar.Enabled = true;
@@ -209,9 +208,9 @@ namespace Client
                     Thread.Sleep(20);
                     FileStream file = new FileStream(txt_box_path.Text, FileMode.Open);
                     long totalBytes = file.Length, bytesSoFar = 0;
-                    byte[] filechunk = new byte[1024 * 7];
+                    byte[] filechunk = new byte[4096];
                     int numBytes;
-                    while ((numBytes = file.Read(filechunk, 0, 1024*7)) > 0)
+                    while ((numBytes = file.Read(filechunk, 0, 4096)) > 0)
                     {
                         if (socketClient.Send(filechunk, numBytes, SocketFlags.None) != numBytes)
                         {
@@ -222,6 +221,7 @@ namespace Client
                         //if (progress > lastStatus)
                         //{
                             prg_bar.Value = progress;
+                        label8.Text = $"Progress...{progress}%";
                         //}
                     }
                     s.Send(terminator);
@@ -242,6 +242,13 @@ namespace Client
 
                     MessageBox.Show(e.Message + "\r\nMi sto scollegando", "Problema", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     ForceDisconnect(socketClient);
+                }
+                catch (IOException exe)
+                {
+                    if (exe.Message.Contains(txt_box_path.Text))
+                        MessageBox.Show("File gia in upload");
+
+                    MessageBox.Show("File attualmente in uso", "Errore", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
                 catch(Exception ex)
                 {
