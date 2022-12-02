@@ -60,6 +60,7 @@
             this.Controls.Add(this.txt_box_history);
             this.Name = "History";
             this.Text = "Hystory";
+            this.Load += new System.EventHandler(this.History_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
