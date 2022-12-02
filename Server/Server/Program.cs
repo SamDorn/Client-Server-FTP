@@ -52,10 +52,7 @@ namespace Server
                 {
                     Disconnect(clientSocket, n);
                 }
-
             }
-
-
         }
         private static void Download(Socket s, int n)
         {
@@ -115,13 +112,7 @@ namespace Server
             {
                 Console.WriteLine(e.Message);
             }
-
-
         }
-
-
-
-
         private static void VisualizzaFile(Socket s, int n)
         {
         controllo:
@@ -186,8 +177,6 @@ namespace Server
             {
 
                 counter += 1;
-
-
                 Socket clientSocket = serverSocket.Accept();
 
                 Console.WriteLine($" >> Client N°{Convert.ToString(counter)} connected alle ore {DateTime.Now.ToString("HH:mm:ss")}");

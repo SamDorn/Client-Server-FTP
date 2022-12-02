@@ -1,13 +1,12 @@
 ﻿using System;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Net.WebRequestMethods;
 
 namespace Client
 {
@@ -16,10 +15,12 @@ namespace Client
         private bool chiuso = true;
         private Socket socketClient;
         private string his = "";
+        private string fileName;
         private string path;
         private int port;
         private string ip;
         public bool creato = false;
+        private string file = "";
         private History history;
 
         public Form1()
@@ -52,7 +53,7 @@ namespace Client
         }
         private void btn_help_download_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Scarica il file selezionato nella cartella " + Path.GetFullPath(path), "Aiuto download", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Scarica il file selezionato in una cartella a scelta", "Aiuto download", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
         private void btn_help_history_Click(object sender, EventArgs e)
         {
@@ -69,10 +70,18 @@ namespace Client
         }
         private void btn_download_Click(object sender, EventArgs e)
         {
-            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            if (list_box_files.SelectedIndex == -1)
             {
-                path = $"{folderBrowserDialog1.SelectedPath}/";
+                MessageBox.Show("Devi selezionare un file", "Problema", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+            else
+            {
+                if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    path = $"{folderBrowserDialog1.SelectedPath}/";
+                }
+            }
+
             Thread thread = new Thread(() => Download(socketClient, path));
             thread.Start();
         }
@@ -180,6 +189,7 @@ namespace Client
         }
         private void Upload(Socket s)
         {
+            prg_bar.Value = 0;
             if (!(txt_box_path.Text == ""))
             {
                 prg_bar.Enabled = true;
@@ -189,7 +199,7 @@ namespace Client
                 {
                     s.Send(msg);
                     string filePath = "";
-                    string fileName = txt_box_path.Text;
+                    fileName = txt_box_path.Text;
                     fileName = fileName.Replace("\\", "/");
                     while (fileName.IndexOf("/") > -1)
                     {
@@ -220,14 +230,23 @@ namespace Client
                         Byte progress = (byte)(bytesSoFar * 100 / totalBytes);
                         //if (progress > lastStatus)
                         //{
+                        if (prg_bar.Value != 100)
+                        {
                             prg_bar.Value = progress;
-                        label8.Text = $"Progress...{progress}%";
+                            prg_bar.CreateGraphics().DrawString(progress + "%",
+                                new Font("Arial", (float)10, FontStyle.Regular),
+                            Brushes.Black,
+                                new PointF(prg_bar.Width / 2 - 10, prg_bar.Height / 2 - 7));
+
+                        }
+
                         //}
                     }
                     s.Send(terminator);
                     file.Close();
                     label9.Text = $"Caricato {fileName} alle ore {DateTime.Now.ToString("HH:mm:ss")}";
                     his += label9.Text + "\r\n";
+                    prg_bar.Value = 0;
                 }
                 catch (SocketException e)
                 {
@@ -245,12 +264,12 @@ namespace Client
                 }
                 catch (IOException exe)
                 {
-                    if (exe.Message.Contains(txt_box_path.Text))
+                    if (exe.Message.Contains(fileName))
                         MessageBox.Show("File gia in upload");
 
                     MessageBox.Show("File attualmente in uso", "Errore", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message + "\r\nMi sto scollegando", "Problema", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
@@ -295,59 +314,71 @@ namespace Client
         }
         private void Download(Socket s, string str)
         {
-            string file = list_box_files.SelectedItem.ToString();
-            byte[] msg = new byte[1024];
-            msg = Encoding.ASCII.GetBytes("d");
-            try
+
+            if (list_box_files.SelectedIndex != -1)
             {
-                s.Send(msg);
-                Thread.Sleep(50);
-                byte[] clientData = new byte[4096];
-                msg = Encoding.ASCII.GetBytes(file);
-                s.Send(msg);
-                int nFile = 0;
-                FileStream fs = new FileStream(str + file, FileMode.OpenOrCreate, FileAccess.ReadWrite);
-                while (true)
+                file = list_box_files.SelectedItem.ToString();
+                byte[] msg = new byte[1024];
+                msg = Encoding.ASCII.GetBytes("d");
+
+                try
                 {
-                    nFile = s.Receive(clientData);
-                    string bre = Encoding.ASCII.GetString(clientData);
-                    if (bre.IndexOf("<EOF>") > -1)
+
+                    s.Send(msg);
+                    Thread.Sleep(50);
+                    byte[] clientData = new byte[4096];
+                    msg = Encoding.ASCII.GetBytes(file);
+                    s.Send(msg);
+                    int nFile = 0;
+                    FileStream fs = new FileStream(path + file, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+                    while (true)
                     {
-                        break;
+                        nFile = s.Receive(clientData);
+                        string bre = Encoding.ASCII.GetString(clientData);
+                        if (bre.IndexOf("<EOF>") > -1)
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            fs.Write(clientData, 0, nFile);
+                        }
                     }
-                    else
-                    {
-                        fs.Write(clientData, 0, nFile);
-                    }
+                    fs.Flush();
+                    fs.Close();
+                    label9.Text = $"Scaricato {file} alle ore {DateTime.Now.ToString("HH:mm:ss")}";
+                    his += label9.Text + "\r\n";
                 }
-                fs.Flush();
-                fs.Close();
-                label9.Text = $"Scaricato {file} alle ore {DateTime.Now.ToString("HH:mm:ss")}";
-                his += label9.Text + "\r\n";
+                catch (SocketException e)
+                {
+                    btn_download.Enabled = false;
+                    btn_list.Enabled = false;
+                    btn_start.Enabled = true;
+                    btn_stop.Enabled = false;
+                    btn_upload.Enabled = false;
+                    btn_percorso.Enabled = false;
+                    MessageBox.Show(e.Message + "\r\nMi sto scollegando", "Problema", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    ForceDisconnect(socketClient);
+                }
+                catch (Exception ex)
+                {
+                    btn_download.Enabled = false;
+                    btn_list.Enabled = false;
+                    btn_start.Enabled = true;
+                    btn_stop.Enabled = false;
+                    btn_upload.Enabled = false;
+                    btn_percorso.Enabled = false;
+                    MessageBox.Show(ex.Message + "\r\nMi sto scollegando", "Problema", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Disconnect(socketClient);
+                }
             }
-            catch (SocketException e)
-            {
-                btn_download.Enabled = false;
-                btn_list.Enabled = false;
-                btn_start.Enabled = true;
-                btn_stop.Enabled = false;
-                btn_upload.Enabled = false;
-                btn_percorso.Enabled = false;
-                MessageBox.Show(e.Message + "\r\nMi sto scollegando", "Problema", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                ForceDisconnect(socketClient);
-            }
-            catch (Exception ex)
-            {
-                btn_download.Enabled = false;
-                btn_list.Enabled = false;
-                btn_start.Enabled = true;
-                btn_stop.Enabled = false;
-                btn_upload.Enabled = false;
-                btn_percorso.Enabled = false;
-                MessageBox.Show(ex.Message + "\r\nMi sto scollegando", "Problema", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Disconnect(socketClient);
-            }
+
+
         }
+
+
+
+
 
 
 
@@ -357,6 +388,23 @@ namespace Client
             if (!chiuso)
                 Disconnect(socketClient);
 
+        }
+
+        private void txt_ip_KeyPress(object sender, KeyPressEventArgs e)
+        {
+             if (!char.IsDigit(e.KeyChar) && e.KeyChar != '.' && e.KeyChar!= '\b')
+                    e.Handled = true;
+        }
+
+        private void txt_port_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != '\b')
+                e.Handled = true;
+        }
+
+        private void txt_port_TextChanged(object sender, EventArgs e)
+        {
+            
         }
     }
 }
