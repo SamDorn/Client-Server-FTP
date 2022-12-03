@@ -26,7 +26,12 @@ The downloaded files will be saved in the folder you select.
 
 ## How does it work?
 
-Both server and client are written in ___C#___.The only difference is that the client is a windows form, meanwhile the server is a console application. It uses socket to communicate and send files.
+Both server and client are written in ___C#___.The only difference is that the client is a windows form, meanwhile the server is a console application. It uses socket to communicate and send files.<br>
+For each upload, download and list of available files, the client send first a letter so the server can know what the client what. The receive of the 
+Server is managed with switch-case to redirect the right function based on the letter receive.<br>
+To send a file it is first necessary to send the file name. <br>After that a byte[] containing the lenght of the file is sent so the progress bar know how much 
+byte need to be received and can display the èrpgress based on the bytes received so far. <br>
+The actual file is sent in block of 4096 kb. After that a terminator is sent, meaning the sending is over.
 
 
 
