@@ -14,14 +14,14 @@
 - [Known bugs](#known-bugs)
 
 ## What is it?
-Is a client-server architecture where clients can upload and download files to and from the server, similar to the FTP protocol. <br>
+It's a client-server architecture where clients can upload and download files to and from the server, similar to the FTP protocol. <br>
 There are 2 application, a server.exe and a client.exe. The server is the one to receive and send files when requested and the client is the one
 who can upload and download files.
 
 ## What does it do?
 
 Once the server is listening for connections, the clients can connect, upload and download files. <br>
-The uploaded files will be saved in CLient-Server-FTP\Server\Server\bin\debug\net6.0\files <br>
+The uploaded files will be saved in Client-Server-FTP\Server\Server\bin\debug\net6.0\files <br>
 The downloaded files will be saved in the folder you select.
 
 ## How does it work?
@@ -30,7 +30,7 @@ Both server and client are written in ___C#___.The only difference is that the c
 For each upload, download and list of available files, the client send first a letter so the server can know what the client what. The receive of the 
 Server is managed with switch-case to redirect the right function based on the letter receive.<br>
 To send a file it is first necessary to send the file name. <br>After that a byte[] containing the lenght of the file is sent so the progress bar know how much 
-byte need to be received and can display the èrpgress based on the bytes received so far. <br>
+byte need to be received and can display the prpgress based on the bytes received so far. <br>
 The actual file is sent in block of 4096 kb. After that a terminator is sent, meaning the sending is over.
 
 
