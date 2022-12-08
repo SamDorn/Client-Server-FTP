@@ -9,7 +9,7 @@ namespace Client
         public History()
         {
             InitializeComponent();
-            
+
         }
         public void History_Load(object sender, EventArgs e)
         {
@@ -26,6 +26,6 @@ namespace Client
             txt_box_history.AppendText(s);
         }
 
-        
+
     }
 }

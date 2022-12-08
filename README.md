@@ -103,8 +103,6 @@ Feel free to use the :grey_question: at the right side of each buttons to unders
 ## Known bugs
 
 :x: If multiple clients try to download the same file, only the first one is allowed.<br>
-:x: You can't upload a file at the same time with 2 different clients. <br>
-:x: History bar exception not managed EASY FIX.<br>
 :x: Server console gets a bit ugly when multiple clients try to do different things. <br>
 
 

@@ -310,6 +310,7 @@ namespace Client
             // 
             // btn_history
             // 
+            this.btn_history.Enabled = false;
             this.btn_history.Location = new System.Drawing.Point(13, 544);
             this.btn_history.Name = "btn_history";
             this.btn_history.Size = new System.Drawing.Size(312, 23);
@@ -372,7 +373,10 @@ namespace Client
             this.Controls.Add(this.txt_port);
             this.Controls.Add(this.txt_ip);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximumSize = new System.Drawing.Size(390, 622);
+            this.MinimumSize = new System.Drawing.Size(390, 622);
             this.Name = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Client";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.ResumeLayout(false);
