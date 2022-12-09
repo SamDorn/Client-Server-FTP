@@ -17,7 +17,7 @@ namespace Client
         private History history;
         private string his, ip;
         private int port;
-        private bool creato = false, chiuso = true;
+        private bool inUso = false, chiuso = true;
 
         public Form1()
         {
@@ -219,6 +219,8 @@ namespace Client
          /// <param name="lenght">Lunghezza file</param>
         private void GetFile(Socket s, string str, string fileName, long lenght)
         {
+            
+            btn_stop.Enabled = false;
             btn_download.Enabled = false;
             btn_upload.Enabled = false;
             byte[] clientData = new byte[4096];
@@ -250,6 +252,7 @@ namespace Client
             his += label9.Text + "\r\n";
             btn_download.Enabled = true;
             btn_upload.Enabled = true;
+            btn_stop.Enabled = true;
         }
         /// <summary>
         /// Questo metodo cambia gli \\ in / edi una stringa e ottiene solo la parte finale del percorso 
@@ -277,6 +280,7 @@ namespace Client
          /// <param name="nome">Stringa nome file</param>
         private void InvioFile(Socket s, FileStream file, string nome)
         {
+            btn_stop.Enabled = false;
             btn_download.Enabled = false;
             btn_upload.Enabled = false;
             long lenght = file.Length, bytesSoFar = 0;
@@ -302,6 +306,7 @@ namespace Client
             prg_bar.Value = 0;
             btn_download.Enabled = true;
             btn_upload.Enabled = true;
+            btn_stop.Enabled = true;
         }
         /// <summary>
         /// Resetta l'interfaccia grafica
@@ -317,6 +322,7 @@ namespace Client
             btn_stop.Enabled = false;
             btn_upload.Enabled = false;
             btn_percorso.Enabled = false;
+
 
         }
         #endregion
@@ -460,7 +466,9 @@ namespace Client
                 InvioLettera(s, "d");
                 Thread.Sleep(30);
                 InvioNomeFile(s, fileName);
+                Thread.Sleep(30);
                 lenght = GetLenght(s);
+                Thread.Sleep(30);
                 GetFile(s, str, fileName, lenght);
             }
             catch (SocketException e)
